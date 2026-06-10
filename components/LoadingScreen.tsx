@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import ConfettiBackground from "@/components/ui/confetti-background";
 
 const questions = [
@@ -59,6 +60,13 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
             className="fixed inset-0 z-[9999] flex items-center justify-center"
           >
             <ConfettiBackground />
+            <button
+              onClick={() => { setFadeOut(true); setTimeout(() => setShowLoading(false), 800); }}
+              className="absolute top-6 right-6 z-20 flex items-center gap-1.5 text-xs text-text-muted hover:text-gold-light transition-colors"
+            >
+              <X className="w-3 h-3" />
+              Skip
+            </button>
             <div className="relative z-10 text-center px-4">
               <motion.p
                 key={textIndex}

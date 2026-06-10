@@ -140,7 +140,7 @@ export default function HeroSection() {
 
         <motion.div
           variants={itemVariants}
-          className="inline-flex items-center gap-8 md:gap-12 px-6 md:px-10 py-4 rounded-full bg-white/5 backdrop-blur-md border border-white/10"
+          className="inline-flex items-center gap-8 md:gap-12 px-6 md:px-10 py-4 rounded-full bg-cream/90 backdrop-blur-md border border-gold-mid/20"
         >
           {[
             { value: "10+", label: "Years Experience" },
@@ -148,10 +148,10 @@ export default function HeroSection() {
             { value: "Cape Town", label: "Based" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-gold-light font-display text-lg md:text-xl font-semibold">
+              <div className="text-gold-dark font-display text-lg md:text-xl font-semibold">
                 {stat.value}
               </div>
-              <div className="text-xs text-text-muted">{stat.label}</div>
+              <div className="text-xs text-black/70">{stat.label}</div>
             </div>
           ))}
         </motion.div>

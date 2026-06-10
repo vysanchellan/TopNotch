@@ -24,6 +24,10 @@ export default function ConfettiBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    const isMobile = window.innerWidth < 768;
+    const count = isMobile ? 300 : 250;
+    const sizeMultiplier = isMobile ? 1.4 : 1;
+
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -32,26 +36,26 @@ export default function ConfettiBackground() {
     window.addEventListener('resize', resizeCanvas);
 
     const goldColors = [
-      'rgba(201, 162, 39, 0.85)',
-      'rgba(232, 201, 106, 0.75)',
-      'rgba(154, 122, 10, 0.7)',
-      'rgba(245, 240, 232, 0.5)',
-      'rgba(201, 162, 39, 0.5)',
+      'rgba(201, 162, 39, 0.9)',
+      'rgba(232, 201, 106, 0.8)',
+      'rgba(154, 122, 10, 0.75)',
+      'rgba(245, 240, 232, 0.6)',
+      'rgba(201, 162, 39, 0.6)',
     ];
 
     const initConfetti = () => {
       confettiRef.current = [];
-      for (let i = 0; i < 180; i++) {
+      for (let i = 0; i < count; i++) {
         confettiRef.current.push({
-          x: -canvas.width * 0.2 + Math.random() * canvas.width * 1.4,
-          y: -Math.random() * canvas.height * 0.3,
-          z: Math.random() * 1500 + 800,
-          velocityX: (Math.random() - 0.5) * 0.6,
-          velocityY: Math.random() * 0.3 + 0.1,
-          velocityZ: -(Math.random() * 0.6 + 0.3),
+          x: Math.random() * canvas.width,
+          y: -Math.random() * canvas.height * 0.15,
+          z: Math.random() * 800 + 400,
+          velocityX: (Math.random() - 0.5) * 0.8,
+          velocityY: Math.random() * 0.8 + 0.4,
+          velocityZ: -(Math.random() * 1.2 + 0.6),
           rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.04,
-          baseSize: Math.random() * 12 + 6,
+          rotationSpeed: (Math.random() - 0.5) * 0.06,
+          baseSize: (Math.random() * 12 + 6) * sizeMultiplier,
           opacity: 1,
           shape: (['rectangle', 'circle', 'star', 'diamond'] as const)[Math.floor(Math.random() * 4)],
           color: goldColors[Math.floor(Math.random() * goldColors.length)],
@@ -149,12 +153,12 @@ export default function ConfettiBackground() {
         }
         if (piece.isFading) piece.opacity -= 0.02;
         if (piece.opacity <= 0) {
-          piece.x = -canvas.width * 0.2 + Math.random() * canvas.width * 1.4;
-          piece.y = -Math.random() * canvas.height * 0.3;
-          piece.z = Math.random() * 800 + 1200;
-          piece.velocityX = (Math.random() - 0.5) * 0.6;
-          piece.velocityY = Math.random() * 0.3 + 0.1;
-          piece.velocityZ = -(Math.random() * 0.6 + 0.3);
+          piece.x = Math.random() * canvas.width;
+          piece.y = -Math.random() * canvas.height * 0.15;
+          piece.z = Math.random() * 800 + 400;
+          piece.velocityX = (Math.random() - 0.5) * 0.8;
+          piece.velocityY = Math.random() * 0.8 + 0.4;
+          piece.velocityZ = -(Math.random() * 1.2 + 0.6);
           piece.floatPhase = Math.random() * Math.PI * 2;
           piece.opacity = 1;
           piece.isFading = false;
