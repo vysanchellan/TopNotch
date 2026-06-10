@@ -121,7 +121,7 @@ const ShaderCanvas = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block z-0" />;
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" style={{ zIndex: -1 }} />;
 };
 
 export interface PricingCardProps {
@@ -195,13 +195,13 @@ export const ModernPricingPage = ({
   showAnimatedBackground = true,
 }: ModernPricingPageProps) => {
   return (
-    <div className="relative w-full overflow-hidden">
+    <div className="relative w-full overflow-hidden" style={{ isolation: "isolate" }}>
       {showAnimatedBackground && (
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0" style={{ zIndex: -1 }}>
           <ShaderCanvas />
         </div>
       )}
-      <div className="relative z-10 w-full min-h-screen flex flex-col items-center justify-center px-4 py-8">
+      <div className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-8" style={{ zIndex: 1 }}>
         <div className="w-full max-w-5xl mx-auto text-center mb-14">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

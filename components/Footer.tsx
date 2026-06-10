@@ -61,7 +61,7 @@ export default function Footer() {
 
         <div className="border-t border-brand-border pt-6 mt-6">
           <p className="text-[11px] text-text-muted">
-            Built with ♥ by Vysan Studio
+            Built with ♥ by kassora-tech
           </p>
         </div>
       </div>
