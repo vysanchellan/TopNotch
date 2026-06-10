@@ -21,9 +21,11 @@ export default function HeroSection() {
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) return;
     const handleScroll = () => {
       if (parallaxRef.current) {
-        parallaxRef.current.style.transform = `translateY(${window.scrollY * 0.4}px)`;
+        parallaxRef.current.style.transform = `translate3d(0, ${window.scrollY * 0.4}px, 0)`;
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
