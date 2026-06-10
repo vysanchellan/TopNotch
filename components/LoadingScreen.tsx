@@ -12,12 +12,17 @@ const questions = [
 ];
 
 export default function LoadingScreen({ children }: { children: React.ReactNode }) {
-  const [visible, setVisible] = useState(true);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [showQ, setShowQ] = useState(false);
 
   const currentQuestion = questions[textIndex];
+
+  const reveal = useCallback(() => {
+    setShowOverlay(false);
+  }, []);
 
   const advanceToNext = useCallback(() => {
     if (textIndex < questions.length - 1) {
@@ -25,12 +30,12 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
       setCharIndex(0);
       setShowQ(false);
     } else {
-      setVisible(false);
+      reveal();
     }
-  }, [textIndex]);
+  }, [textIndex, reveal]);
 
   useEffect(() => {
-    if (!visible) return;
+    if (!showOverlay) return;
     if (charIndex < currentQuestion.length) {
       const t = setTimeout(() => setCharIndex((i) => i + 1), 50 + Math.random() * 40);
       return () => clearTimeout(t);
@@ -41,18 +46,28 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
     }
     const t = setTimeout(advanceToNext, 1200);
     return () => clearTimeout(t);
-  }, [charIndex, currentQuestion.length, showQ, advanceToNext, visible]);
+  }, [charIndex, currentQuestion.length, showQ, advanceToNext, showOverlay]);
 
-  const skip = () => setVisible(false);
+  useEffect(() => {
+    if (showOverlay) return;
+    const t = setTimeout(() => setShowContent(true), 750);
+    return () => clearTimeout(t);
+  }, [showOverlay]);
+
+  const skip = () => reveal();
 
   return (
     <>
-      <div className="min-h-screen">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={showContent ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+      >
         {children}
-      </div>
+      </motion.div>
 
       <AnimatePresence>
-        {visible && (
+        {showOverlay && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
