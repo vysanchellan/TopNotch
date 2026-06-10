@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import LoadingScreen from "@/components/LoadingScreen";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -40,7 +41,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${dmSans.variable} dark`}
     >
       <body className="min-h-screen flex flex-col bg-brand-black text-white font-body antialiased">
-        {children}
+        <LoadingScreen>{children}</LoadingScreen>
       </body>
     </html>
   );
