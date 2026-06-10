@@ -12,11 +12,10 @@ const questions = [
 ];
 
 export default function LoadingScreen({ children }: { children: React.ReactNode }) {
-  const [showLoading, setShowLoading] = useState(true);
+  const [visible, setVisible] = useState(true);
   const [textIndex, setTextIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
-  const [showQuestionMark, setShowQuestionMark] = useState(false);
-  const [fadeOut, setFadeOut] = useState(false);
+  const [showQ, setShowQ] = useState(false);
 
   const currentQuestion = questions[textIndex];
 
@@ -24,44 +23,45 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
     if (textIndex < questions.length - 1) {
       setTextIndex((i) => i + 1);
       setCharIndex(0);
-      setShowQuestionMark(false);
+      setShowQ(false);
     } else {
-      setShowQuestionMark(true);
-      setTimeout(() => setFadeOut(true), 800);
-      setTimeout(() => setShowLoading(false), 2000);
+      setVisible(false);
     }
   }, [textIndex]);
 
   useEffect(() => {
-    if (fadeOut) return;
-
+    if (!visible) return;
     if (charIndex < currentQuestion.length) {
       const t = setTimeout(() => setCharIndex((i) => i + 1), 50 + Math.random() * 40);
       return () => clearTimeout(t);
-    } else {
-      const t = setTimeout(() => {
-        if (!showQuestionMark) {
-          setShowQuestionMark(true);
-          setTimeout(advanceToNext, 1200);
-        }
-      }, 300);
+    }
+    if (!showQ) {
+      const t = setTimeout(() => setShowQ(true), 300);
       return () => clearTimeout(t);
     }
-  }, [charIndex, currentQuestion.length, fadeOut, showQuestionMark, advanceToNext]);
+    const t = setTimeout(advanceToNext, 1200);
+    return () => clearTimeout(t);
+  }, [charIndex, currentQuestion.length, showQ, advanceToNext, visible]);
+
+  const skip = () => setVisible(false);
 
   return (
     <>
+      <div className="min-h-screen">
+        {children}
+      </div>
+
       <AnimatePresence>
-        {showLoading && (
+        {visible && (
           <motion.div
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
             className="fixed inset-0 z-[9999] flex items-center justify-center"
           >
             <ConfettiBackground />
             <button
-              onClick={() => { setFadeOut(true); setTimeout(() => setShowLoading(false), 800); }}
+              onClick={skip}
               className="absolute top-6 right-6 z-20 flex items-center gap-1.5 text-xs text-text-muted hover:text-gold-light transition-colors"
             >
               <X className="w-3 h-3" />
@@ -81,7 +81,7 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
                   transition={{ repeat: Infinity, duration: 0.6 }}
                   className="inline-block w-[2px] h-[1em] bg-gold-light ml-1 align-middle"
                 />
-                {showQuestionMark && (
+                {showQ && (
                   <motion.span
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -96,14 +96,6 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
           </motion.div>
         )}
       </AnimatePresence>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={fadeOut || !showLoading ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        {children}
-      </motion.div>
     </>
   );
 }
