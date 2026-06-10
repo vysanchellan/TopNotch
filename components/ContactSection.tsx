@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Send, MessageCircle } from "lucide-react";
+import { Send, MessageCircle, Phone, Mail, MapPin } from "lucide-react";
 
 const services = [
   "Renovations",
@@ -221,7 +221,7 @@ export default function ContactSection() {
 
               <div className="space-y-3 text-sm mb-6">
                 <div className="flex items-center gap-3">
-                  <span>📞</span>
+                  <Phone className="w-4 h-4 text-gold-light shrink-0" />
                   <a
                     href="tel:0656396986"
                     className="text-text-muted hover:text-white transition-colors"
@@ -230,7 +230,7 @@ export default function ContactSection() {
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span>✉️</span>
+                  <Mail className="w-4 h-4 text-gold-light shrink-0" />
                   <a
                     href="mailto:rouelmasterman33@gmail.com"
                     className="text-text-muted hover:text-white transition-colors break-all"
@@ -239,7 +239,7 @@ export default function ContactSection() {
                   </a>
                 </div>
                 <div className="flex items-start gap-3">
-                  <span className="mt-0.5">📍</span>
+                  <MapPin className="w-4 h-4 text-gold-light shrink-0 mt-0.5" />
                   <span className="text-text-muted">
                     31 Barrowdale Close, Parklands,
                     <br />

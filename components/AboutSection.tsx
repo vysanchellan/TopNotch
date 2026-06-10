@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Phone, Mail, MapPin } from "lucide-react";
 
 const stats = [
   { value: "500+", label: "Projects Completed" },
@@ -38,9 +39,12 @@ export default function AboutSection() {
             and interior fitting — all under one roof.
           </p>
 
-          <div className="grid grid-cols-3 gap-6">
+          <div className="grid grid-cols-3 gap-4">
             {stats.map((stat) => (
-              <div key={stat.label}>
+              <div
+                key={stat.label}
+                className="bg-brand-card border border-brand-border rounded-xl p-4 text-center hover:border-gold-mid/30 transition-colors"
+              >
                 <div className="text-gold-light font-display text-3xl md:text-4xl font-semibold">
                   {stat.value}
                 </div>
@@ -70,19 +74,19 @@ export default function AboutSection() {
 
             <div className="space-y-3 text-sm text-left">
               <div className="flex items-center gap-3">
-                <span className="text-gold-light">📞</span>
+                <Phone className="w-4 h-4 text-gold-light shrink-0" />
                 <a href="tel:0656396986" className="text-text-muted hover:text-white transition-colors">
                   065 639 6986
                 </a>
               </div>
               <div className="flex items-center gap-3">
-                <span className="text-gold-light">✉️</span>
+                <Mail className="w-4 h-4 text-gold-light shrink-0" />
                 <a href="mailto:rouelmasterman33@gmail.com" className="text-text-muted hover:text-white transition-colors break-all">
                   rouelmasterman33@gmail.com
                 </a>
               </div>
               <div className="flex items-start gap-3">
-                <span className="text-gold-light mt-0.5">📍</span>
+                <MapPin className="w-4 h-4 text-gold-light shrink-0 mt-0.5" />
                 <span className="text-text-muted">
                   31 Barrowdale Close, Parklands,
                   <br />

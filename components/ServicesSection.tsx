@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BentoGridShowcase } from "@/components/ui/bento-product-features";
 import {
   Hammer,
   Truck,
@@ -12,30 +13,20 @@ import {
   Droplets,
 } from "lucide-react";
 
-interface BentoItem {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  status?: string;
-  tags: string[];
-  colSpan?: number;
-}
-
-const services: BentoItem[] = [
+const services = [
   {
     title: "Renovations",
     description:
       "Full home and commercial renovations — kitchens, bathrooms, living spaces transformed with precision craftsmanship.",
-    icon: <Hammer className="w-4 h-4 text-gold-mid" />,
+    icon: <Hammer className="w-5 h-5 text-gold-mid" />,
     status: "Popular",
     tags: ["Interior", "Full Home"],
-    colSpan: 2,
   },
   {
     title: "Motor Homes",
     description:
       "Custom-built motor homes designed for comfort and durability. Your dream home on wheels.",
-    icon: <Truck className="w-4 h-4 text-gold-mid" />,
+    icon: <Truck className="w-5 h-5 text-gold-mid" />,
     status: "Signature",
     tags: ["Mobile", "Custom Build"],
   },
@@ -43,15 +34,14 @@ const services: BentoItem[] = [
     title: "Caravans",
     description:
       "Caravan fit-outs and full builds. Modern interiors, quality finishes, built for the open road.",
-    icon: <Home className="w-4 h-4 text-gold-mid" />,
+    icon: <Home className="w-5 h-5 text-gold-mid" />,
     tags: ["Mobile Living"],
-    colSpan: 2,
   },
   {
     title: "Built-in Cupboards",
     description:
       "Bespoke built-in storage solutions — wardrobes, kitchen cabinetry, and custom shelving.",
-    icon: <Package className="w-4 h-4 text-gold-mid" />,
+    icon: <Package className="w-5 h-5 text-gold-mid" />,
     status: "Available",
     tags: ["Cabinetry", "Storage"],
   },
@@ -59,21 +49,21 @@ const services: BentoItem[] = [
     title: "Flooring & Tiling",
     description:
       "Professional flooring installation — tiles, laminate, hardwood. Flawless finish every time.",
-    icon: <Layers className="w-4 h-4 text-gold-mid" />,
+    icon: <Layers className="w-5 h-5 text-gold-mid" />,
     tags: ["Flooring", "Tiling"],
   },
   {
     title: "Painting",
     description:
       "Interior and exterior painting with premium finishes that last.",
-    icon: <Paintbrush className="w-4 h-4 text-gold-mid" />,
+    icon: <Paintbrush className="w-5 h-5 text-gold-mid" />,
     tags: ["Interior", "Exterior"],
   },
   {
     title: "Electrical",
     description:
       "Certified electrical installations, upgrades, and repairs for residential and commercial spaces.",
-    icon: <Zap className="w-4 h-4 text-gold-mid" />,
+    icon: <Zap className="w-5 h-5 text-gold-mid" />,
     status: "Certified",
     tags: ["Electrical"],
   },
@@ -81,10 +71,45 @@ const services: BentoItem[] = [
     title: "Plumbing",
     description:
       "Full plumbing services — new installations, repairs, and complete bathroom fit-outs.",
-    icon: <Droplets className="w-4 h-4 text-gold-mid" />,
+    icon: <Droplets className="w-5 h-5 text-gold-mid" />,
     tags: ["Plumbing", "Fit-out"],
   },
 ];
+
+const ServiceCard = ({
+  title,
+  description,
+  icon,
+  status,
+  tags,
+}: (typeof services)[number]) => (
+  <div className="h-full bg-brand-card border border-brand-border hover:border-gold-mid/50 rounded-2xl p-6 transition-all hover:shadow-[0_0_24px_rgba(201,162,39,0.08)] flex flex-col">
+    <div className="flex items-start justify-between mb-4">
+      <div className="w-10 h-10 rounded-lg bg-gold-mid/10 flex items-center justify-center">
+        {icon}
+      </div>
+      {status && (
+        <span className="text-[10px] uppercase tracking-wider bg-gold-mid/10 text-gold-light px-2.5 py-1 rounded-full">
+          {status}
+        </span>
+      )}
+    </div>
+    <h3 className="font-display text-xl mb-2">{title}</h3>
+    <p className="text-sm text-text-muted leading-relaxed mb-4 flex-1">
+      {description}
+    </p>
+    <div className="flex flex-wrap gap-2">
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 text-text-muted"
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+  </div>
+);
 
 const containerVariants = {
   hidden: {},
@@ -118,45 +143,27 @@ export default function ServicesSection() {
           </p>
         </motion.div>
 
+        {/* First 6 services in bento grid */}
+        <BentoGridShowcase
+          integration={<ServiceCard {...services[0]} />}
+          trackers={<ServiceCard {...services[1]} />}
+          statistic={<ServiceCard {...services[2]} />}
+          focus={<ServiceCard {...services[3]} />}
+          productivity={<ServiceCard {...services[4]} />}
+          shortcuts={<ServiceCard {...services[5]} />}
+        />
+
+        {/* Remaining 2 services in a row */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {services.map((item) => (
-            <motion.div
-              key={item.title}
-              variants={itemVariants}
-              className={`group bg-brand-card border border-brand-border hover:border-gold-mid/50 rounded-2xl p-6 transition-all hover:shadow-[0_0_24px_rgba(201,162,39,0.08)] ${
-                item.colSpan === 2 ? "md:col-span-2" : ""
-              }`}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg bg-gold-mid/10 flex items-center justify-center">
-                  {item.icon}
-                </div>
-                {item.status && (
-                  <span className="text-[10px] uppercase tracking-wider bg-gold-mid/10 text-gold-light px-2.5 py-1 rounded-full">
-                    {item.status}
-                  </span>
-                )}
-              </div>
-              <h3 className="font-display text-xl mb-2">{item.title}</h3>
-              <p className="text-sm text-text-muted leading-relaxed mb-4">
-                {item.description}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[11px] px-2.5 py-1 rounded-full bg-white/5 text-text-muted"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+          {services.slice(6).map((item) => (
+            <motion.div key={item.title} variants={itemVariants}>
+              <ServiceCard {...item} />
             </motion.div>
           ))}
         </motion.div>
